@@ -2,13 +2,8 @@ class AreasController < ApplicationController
   before_action :authenticate_user
   before_action :authorize_admin, only: [:create]
 
-  before_action :set_area, only: [:show, :update]
   def index
-    if(Current.user.is_admin?)
-      render json: Area.all.include_accounts
-    else 
-      render json: Area.by_user(Current.user)#[0].accounts
-    end
+      render json: Area.by_user(Current.user), include: 'accounts'
   end
 
   def create
@@ -19,9 +14,11 @@ class AreasController < ApplicationController
       render json: area.errors, status: 422
     end
   end
-
+  
   def show
-    render json: @area 
+    area = Area.by_user(Current.user).include_plans.find_by(id: params[:id])
+    head :not_found unless area
+    render json: area , include: ['plans.plan_accounts','plans.user']
   end
 
   def update
@@ -33,8 +30,5 @@ class AreasController < ApplicationController
     params.require(:area).permit(:name)
   end
 
-  def set_area
-    @area = Area.include_plans.find_by(id: params[:id])
-    head :not_found unless @area
-  end
+  
 end

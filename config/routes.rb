@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   delete "sessions" => "sessions#destroy"
 
   get "areas" => "areas#index"
+  get "areas/:id" => "areas#show"
   post "areas" => "areas#create"
 
   post "accounts" => "accounts#create"

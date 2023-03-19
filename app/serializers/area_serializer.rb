@@ -3,4 +3,5 @@ class AreaSerializer < ActiveModel::Serializer
 
   has_many :accounts
   
+  has_many :plans
 end

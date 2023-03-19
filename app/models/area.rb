@@ -7,11 +7,10 @@ class Area < ApplicationRecord
   scope :include_accounts, -> {includes(:accounts)}
   scope :include_plans, -> {includes(plans: [:user, :plan_accounts])}
   
-  scope :by_user, -> (user) {
-    includes(:accounts)
-    .where({
-      accounts: {id: user.accounts.ids}
-    })
+  scope :by_user, lambda { |user|
+    user.is_admin? ? 
+      includes(:accounts) : includes(:accounts)
+                                .where({accounts: {id: user.accounts.ids}})
   }
     
 end
