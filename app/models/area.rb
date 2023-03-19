@@ -5,6 +5,8 @@ class Area < ApplicationRecord
   validates :name, presence: true
 
   scope :include_accounts, -> {includes(:accounts)}
+  scope :include_plans, -> {includes(plans: [:user, :plan_accounts])}
+  
   scope :by_user, -> (user) {
     includes(:accounts)
     .where({
