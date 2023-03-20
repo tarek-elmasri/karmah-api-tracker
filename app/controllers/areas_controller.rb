@@ -16,9 +16,9 @@ class AreasController < ApplicationController
   end
   
   def show
-    area = Area.by_user(Current.user).include_plans.find_by(id: params[:id])
+    area = Area.by_user(Current.user).include_plans.order('plans.start_date DESC').find_by(id: params[:id])
     head :not_found unless area
-    render json: area , include: ['plans.plan_accounts','plans.user']
+    render json: area , include: ['plans.plan_accounts','plans.user', 'accounts']
   end
 
   def update
