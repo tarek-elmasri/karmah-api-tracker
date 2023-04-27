@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_action :authorize_admin
 
   def index
-    render json: User.details.all
+  render json: User.all, include: []
   end
 
   def create

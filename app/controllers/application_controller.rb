@@ -5,7 +5,7 @@ class ApplicationController < ActionController::API
       raise Error.new("No Token") unless access_token
 
       payload = Tokens.decode(access_token)
-      Current.user = User.details.find(payload[:id])
+      Current.user = User.find(payload[:id])
       
     rescue => e
       head :unauthorized

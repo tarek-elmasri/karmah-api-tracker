@@ -14,7 +14,8 @@ class User < ApplicationRecord
   before_create :add_salt_to_password
   after_create :set_refresh_token
 
-  scope :details, -> {select(:id, :role, :username, :fullname)}
+  #scope :details, -> {select(:id, :role, :username, :fullname)}
+  scope :include_accounts, -> {includes(user_accounts: [:account])}
 
   def self.authenticate credentials
     return nil unless credentials[:username] && credentials[:password]
