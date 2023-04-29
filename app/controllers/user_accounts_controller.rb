@@ -18,6 +18,10 @@ class UserAccountsController < ApplicationController
 
   end
 
+  # def show
+  #   render json: @target_user.accounts, include: []
+  # end
+
   def destroy
     @target_user.user_accounts.destroy_all
     head :ok
